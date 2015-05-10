@@ -17,6 +17,7 @@ package com.example.leakcanary;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.StrictMode;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 
@@ -32,5 +33,19 @@ public class ExampleApplication extends Application {
   @Override public void onCreate() {
     super.onCreate();
     refWatcher = LeakCanary.install(this);
+    enabledStrictMode();
+  }
+
+  private void enabledStrictMode() {
+    StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() //
+        .detectAll() //
+        .penaltyLog() //
+        .penaltyDeath() //
+        .build());
+    StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder() //
+        .detectAll() //
+        .penaltyLog() //
+        .penaltyDeath() //
+        .build());
   }
 }
